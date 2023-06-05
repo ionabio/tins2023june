@@ -24,6 +24,7 @@ gameStage = 0
 
 seed = pygame.transform.scale(pygame.image.load('assets/seed.png'), (int(827*0.01), int(932*0.005)))
 seeds = pygame.sprite.Group()
+
 for i in range(20):
     seedSprite = pygame.sprite.Sprite()
     seedSprite.image = seed

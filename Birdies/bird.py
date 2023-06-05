@@ -1,9 +1,24 @@
 import pygame
+import colorsys
 import random
 import math
 
 def transformBird(image, scale):
     return pygame.transform.scale(image, (int(image.get_width()*scale), int(image.get_height()*scale)))
+def shiftHue(image, hueShift):
+    blue_rgb = (13,121,242)
+    #convert to hsv
+    hsv = colorsys.rgb_to_hsv(blue_rgb[0]/255, blue_rgb[1]/255, blue_rgb[2]/255)
+    #change hue
+    hsv = (hsv[0] + hueShift/255, hsv[1], hsv[2])
+    #convert back to rgb and multply by 255
+    rgb = colorsys.hsv_to_rgb(hsv[0], hsv[1], hsv[2])
+    rgb = (rgb[0]*255, rgb[1]*255, rgb[2]*255)
+    
+    #replace blue with new colour
+    var = pygame.PixelArray(image)
+    var.replace(blue_rgb, rgb)
+    del var
 
 class Bird(pygame.sprite.Sprite):
     def __init__(self):
@@ -26,6 +41,7 @@ class Bird(pygame.sprite.Sprite):
         self.minY = 0
         self.maxY = 0
         self.minX = 0
+        self.hueShift = 0
 
     def flap(self, keyDown):
         if(keyDown):
@@ -70,6 +86,7 @@ class Bird(pygame.sprite.Sprite):
 
         self.speedY += self.accelerationY
         if (self.speedY != 0):
+            
             self.rect.y += self.speedY
             if (self.rect.y < self.minY):
                 self.rect.y = self.minY
@@ -81,3 +98,15 @@ class Bird(pygame.sprite.Sprite):
                 self.accelerationY = 0
                 self.speedA = 0
                 self.speedY = 0
+
+
+        if self.speedY > 0 and self.accelerationY != 0:
+            self.hueShift += self.speedY
+            if (self.hueShift > 255):
+                    self.hueShift = 0
+        else:
+            self.hueShift = 0
+        shiftHue(self.image, self.hueShift)
+            
+
+

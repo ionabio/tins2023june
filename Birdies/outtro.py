@@ -40,7 +40,7 @@ class Outtro:
         elif (self.timer < 3 * self.speechBubbleInterval):
             text = font.render('we are finally free!', False, (0, 0, 0))
         elif (self.timer < 4 * self.speechBubbleInterval):
-            text = font.render('I know the wise rabbit', False, (0, 0, 0))
+            text = font.render('I know the wise mouse', False, (0, 0, 0))
         elif (self.timer < 5 * self.speechBubbleInterval):
             text = font.render('can cut us free', False, (0, 0, 0))
         elif (self.timer < 6 * self.speechBubbleInterval):
